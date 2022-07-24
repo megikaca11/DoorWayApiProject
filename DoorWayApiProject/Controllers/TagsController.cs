@@ -39,7 +39,7 @@
             return Ok(new { message = "Creation successful" });
         }
         //deactivate or activate  tags for users only performed by admin 
-        // [Authorize(RoleEnum.Admin)]
+         [Authorize(RoleEnum.Admin)]
         [HttpPatch("update/{id}")]
         public IActionResult Update(int id, UpdateTagRequest model)
         {
@@ -48,14 +48,12 @@
         }
 
         
-        //[Authorize(RoleEnum.Admin)]
+        [Authorize(RoleEnum.Admin)]
         [HttpGet("filter/{statusId}")]
         public List<Tags> FilterTagsByStatus(int statusId)
         {
            var tagsFiltered= _tagsService.FilterTagsByStatus(statusId);
-            // return Ok(new { message = "Tag updated successfully" })
-            // ;
-           // var a = tagsFiltered;
+           
             return tagsFiltered;
         }
     }

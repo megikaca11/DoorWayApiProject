@@ -13,16 +13,14 @@ using Microsoft.EntityFrameworkCore;
 
 public interface ICheckInService
 {
-    //AuthenticateResponse Authenticate(AuthenticateRequest model);
-    //IEnumerable<User> GetAll();
-    //User GetById(int id);
+    
     void CheckInCreate(CreateCheckInRequest model);
     void Update(int id, UpdateCheckInRequest model);
     IEnumerable<CheckIn> FilterCheckInByUserId(int userId);
     bool allowCheckIn(CreateCheckInRequest model);
 
 
-    //void Update(int id, UpdateRequest model);
+    
 }
 
 public class CheckInService : ICheckInService, ITagsService
@@ -82,19 +80,25 @@ public class CheckInService : ICheckInService, ITagsService
         {
             if (DateTime.Now > tag.AsignDate.AddYears(1))
                 //update status to expired
+                tag.Status_ID = 4;
                 _context.Tags.Update(tag);
+               _context.SaveChanges();
         }
         else if (tag.Validity_ID == 2)
         {
             if (DateTime.Now > tag.AsignDate.AddHours(1))
                 //update status to expired
-                _context.Tags.Update(tag);
+                tag.Status_ID = 4;
+            _context.Tags.Update(tag);
+            _context.SaveChanges();
         }
         else if (tag.Validity_ID == 3)
         {
             if (DateTime.Now > tag.AsignDate.AddYears(3))
                 //update status to expired
-                _context.Tags.Update(tag);
+                tag.Status_ID = 4;
+            _context.Tags.Update(tag);
+            _context.SaveChanges();
         }
     }
 

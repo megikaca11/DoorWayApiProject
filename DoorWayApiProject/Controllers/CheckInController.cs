@@ -10,6 +10,7 @@
     using DoorWayApiProject.Entities;
     using Microsoft.Extensions.Logging;
     using NPOI.Util;
+    using DoorWayApiProject.Helpers.NewFolder;
 
     [Authorize]
     [ApiController]
@@ -61,13 +62,13 @@
             return Ok(new { message = "Checkin updated successfully" });
         }
 
+
+        [Authorize(RoleEnum.Admin)]
         [HttpGet("getCheckIn/{userId}")]
         public IEnumerable<CheckIn> FilterCheckInByUserId(int userId)
         {
             var checkInFiltered = _checkInService.FilterCheckInByUserId(userId);
-            // return Ok(new { message = "Tag updated successfully" })
-            // ;
-            // var a = tagsFiltered;
+            
             return checkInFiltered;
         }
     }

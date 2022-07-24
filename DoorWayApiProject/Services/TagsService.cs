@@ -46,11 +46,11 @@ public class TagsService : ITagsService
     {
 
 
-        // map model to new user object
+        
         var tag = _mapper.Map<Tags>(model);
 
         tag.AsignDate = DateTime.Now;
-        // save user
+       
         _context.Tags.Add(tag);
         _context.SaveChanges();
     }
@@ -62,10 +62,6 @@ public class TagsService : ITagsService
     public void Update(int id, UpdateTagRequest model)
     {
         var tag = getTag(id);
-
-
-
-
 
         _mapper.Map(model, tag);
         _context.Tags.Update(tag);
@@ -95,13 +91,13 @@ public class TagsService : ITagsService
     }
 
 
-    public void UpdateTagsStatusBasedOnValidity(int id) {
-      //  var statusid = model.Status_ID;
+    //public void UpdateTagsStatusBasedOnValidity(int id) {
+     
 
-       var query = _context.Tags.FromSqlRaw("UPDATE Tags SET Status_ID = (CASE WHEN(GETDATE() >(SELECT DATEADD(year, 1, dbo.Tags.AsignDate) from Tags WHERE USER_ID = 1)) THEN 4 ELSE(select Status_ID from Tags Where User_ID = 1) END) WHERE Id =  " + id + "; ").ToList();
+    //   var query = _context.Tags.FromSqlRaw("UPDATE Tags SET Status_ID = (CASE WHEN(GETDATE() >(SELECT DATEADD(year, 1, dbo.Tags.AsignDate) from Tags WHERE USER_ID = 1)) THEN 4 ELSE(select Status_ID from Tags Where User_ID = 1) END) WHERE Id =  " + id + "; ").ToList();
        
 
 
-        }
+    //    }
 }
 
