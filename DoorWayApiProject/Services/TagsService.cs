@@ -20,6 +20,7 @@ public interface ITagsService
     List<Tags> FilterTagsByStatus(int statusId);
     //void Update(int id, UpdateRequest model);
     //void Delete(int id);
+     Tags getTag(int id);
 }
 
 public class TagsService : ITagsService
@@ -42,56 +43,65 @@ public class TagsService : ITagsService
 
 
     public void TagCreate(CreateTagRequest model)
-        {
-            
+    {
 
-            // map model to new user object
-            var tag = _mapper.Map<Tags>(model);
+
+        // map model to new user object
+        var tag = _mapper.Map<Tags>(model);
 
         tag.AsignDate = DateTime.Now;
         // save user
-            _context.Tags.Add(tag);
-            _context.SaveChanges();
-        }
+        _context.Tags.Add(tag);
+        _context.SaveChanges();
+    }
 
     //deactivate tags for users only performed by admin 
 
 
-    
+
     public void Update(int id, UpdateTagRequest model)
     {
         var tag = getTag(id);
 
-       
-       
 
-       
-       _mapper.Map(model, tag);
+
+
+
+        _mapper.Map(model, tag);
         _context.Tags.Update(tag);
         _context.SaveChanges();
     }
 
-    private Tags getTag(int id)
+    public Tags getTag(int id)
     {
         var tag = _context.Tags.Find(id);
         if (tag == null) throw new KeyNotFoundException("Tag not found");
         return tag;
     }
 
+
     public List<Tags> FilterTagsByStatus(int statusId)
     {
-        var test = statusId;
+        
 
         List<Tags> tagsList = new List<Tags>();
 
 
-
-        string query = @" SELECT * from Tags where Status.ID LIKE '%" + statusId + "%'";
         
         tagsList = _context.Tags.FromSqlRaw("SELECT * from Tags where Status_ID="+ statusId +";")
      .ToList();
         return tagsList;
 
     }
+
+
+    public void UpdateTagsStatusBasedOnValidity(int id) {
+      //  var statusid = model.Status_ID;
+
+       var query = _context.Tags.FromSqlRaw("UPDATE Tags SET Status_ID = (CASE WHEN(GETDATE() >(SELECT DATEADD(year, 1, dbo.Tags.AsignDate) from Tags WHERE USER_ID = 1)) THEN 4 ELSE(select Status_ID from Tags Where User_ID = 1) END) WHERE Id =  " + id + "; ").ToList();
+       
+
+
+        }
 }
 

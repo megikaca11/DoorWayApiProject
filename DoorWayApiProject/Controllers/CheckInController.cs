@@ -8,6 +8,8 @@
     using DoorWayApiProject.Helpers;
     using DoorWayApiProject.Models.CheckIn;
     using DoorWayApiProject.Entities;
+    using Microsoft.Extensions.Logging;
+    using NPOI.Util;
 
     [Authorize]
     [ApiController]
@@ -32,11 +34,27 @@
         [HttpPost("create")]
         public IActionResult CheckInCreate(CreateCheckInRequest model)
         {
-            _checkInService.CheckInCreate(model);
-            return Ok(new { message = "Creation successful" });
+
+            var checkin = _checkInService.allowCheckIn(model);
+            if (checkin)
+            {
+
+                _checkInService.CheckInCreate(model);
+                return Ok(new { message = "Creation successful" });
+            }
+
+            else
+            {
+                return Unauthorized(new { message = "Token Expired" });
+            }
         }
-        
-        [HttpPut("update/{id}")]
+
+
+
+
+
+
+[HttpPut("update/{id}")]
         public IActionResult CheckOutCreate(int id, UpdateCheckInRequest model)
         {
             _checkInService.Update(id, model);

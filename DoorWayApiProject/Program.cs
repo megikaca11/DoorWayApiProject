@@ -30,7 +30,9 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<IJwtUtils, JwtUtils>();
     services.AddScoped<IUserService, UserService>();
     services.AddScoped<ITagsService, TagsService>();
-    services.AddScoped<ICheckInService, CheckInService>();
+    services.AddScoped<ICheckInService, CheckInService>(); 
+    services.AddScoped<IInvalidTokensService, InvalidTokensService>();
+
 
 }
 

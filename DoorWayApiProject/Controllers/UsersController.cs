@@ -7,6 +7,7 @@ using DoorWayApiProject.Authorization;
 using DoorWayApiProject.Helpers;
 using DoorWayApiProject.Models.Users;
 using DoorWayApiProject.Services;
+using DoorWayApiProject.Models.InvalidTokens;
 
 [Authorize]
 [ApiController]
@@ -42,6 +43,14 @@ public class UsersController : ControllerBase
         _userService.Register(model);
         return Ok(new { message = "Registration successful" });
     }
+
+    [HttpPost("logout")]
+    public IActionResult LogOut(CreateInvalidTokenRequest model)
+    {
+        _userService.LogOut(model);
+        return Ok(new { message = "Registration successful" });
+    }
+
 
     [HttpGet]
     public IActionResult GetAll()

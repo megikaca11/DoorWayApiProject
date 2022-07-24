@@ -14,7 +14,7 @@ public class DataContext : DbContext
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
-    {
+   {
         // connect to sql server database
         var conectionString = "Server=DESKTOP-QV2ID25;Initial Catalog=DoorWayAPIDB;Trusted_Connection=True;";
         // options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
@@ -27,4 +27,5 @@ public class DataContext : DbContext
     public DbSet<Roles> Roles { get; set; }
     public DbSet<Status> Status { get; set; }
     public DbSet<TagValidity> TagValidity { get; set; }
+    public DbSet<InvalidTokens> InvalidTokens { get; set; }
 }
